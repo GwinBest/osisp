@@ -2,59 +2,60 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <getopt.h>
 
 extern int alphasort();
 
 int get_flags(const int argc, const char* argv[], dirwalk_flags* flags) {
-    int flag_found = 0;
-    for(size_t i = 1; i < argc; ++i) {
-        if(argv[i][0] == '-') {
-            switch (argv[i][1]) {
-            case 'l': {
-                if(flags->display_symbolic_link) {
+    int is_flag_set = 0;
+
+    char flag;
+    while ((flag = getopt(argc, argv, "ldfs")) != -1) {
+        switch (flag) {
+        case 'l': {
+            if(flags->display_symbolic_link) { 
                     printf("warning: flag -l already set\n");
-                }
-                flags->display_symbolic_link = 1;
-                flag_found = 1;
-                
-                break;
             }
-            case 'd': {
-                if(flags->display_directory) {
-                    printf("warning: flag -d already set\n");
-                }
-                flags->display_directory = 1;
-                flag_found = 1;
+            flags->display_symbolic_link = 1;
+            is_flag_set = 1;
 
-                break;
-            }
-            case 'f': {
-                if(flags->display_files) {
-                    printf("warning: flag -f already set\n");
-                }
-                flags->display_files = 1;
-                flag_found = 1;
-
-                break;
-            }
-            case 's': {
-                if(flags->is_sort) {
-                    printf("warning: flag -s already set\n");
-                }
-                flags->is_sort = 1;
-
-                break;
-            }
-            default: {
-                printf("error: flag -%c is undefined.\nAvailable flags -l, -d, -f, -s\n", argv[i][1]);
-
-                return 1;
-            }
-            }
+            break;
         }
+        case 'd': {
+            if(flags->display_directory) {
+                printf("warning: flag -d already set\n");
+            }
+            flags->display_directory = 1;
+            is_flag_set = 1;
+
+            break;
+        }
+        case 'f': {
+            if(flags->display_files) {
+                printf("warning: flag -f already set\n");
+            }
+            flags->display_files = 1;
+            is_flag_set = 1;
+
+            break;
+        }
+        case 's': {
+            if(flags->is_sort) {
+                printf("warning: flag -s already set\n");
+            }
+            flags->is_sort = 1;
+
+            break;
+        }
+        default: {
+            printf("error: flag -%c is undefined.\nAvailable flags -l, -d, -f, -s\n", flag);
+
+            return 1;
+        }
+        }   
     }
 
-    if(!flag_found) {
+    if(!is_flag_set) {
         flags->display_directory = 1;
         flags->display_files = 1;
         flags->display_symbolic_link = 1;
