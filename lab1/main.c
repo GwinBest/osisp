@@ -4,7 +4,6 @@
 #include <stdio.h>
 
 int main(int argc, char* argv[]) {
-    
     dirwalk_flags flags = {
         .display_directory = 0,
         .display_files = 0,
