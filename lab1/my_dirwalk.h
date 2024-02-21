@@ -4,7 +4,6 @@
 #include <stdint.h>
 
 #define __USE_MISC 
-#include <sys/dir.h>
 #include <dirent.h>
 
 typedef struct dirwalk_flags{

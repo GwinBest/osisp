@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 int main(int argc, char* argv[]) {
+    
     dirwalk_flags flags = {
         .display_directory = 0,
         .display_files = 0,
@@ -16,11 +17,12 @@ int main(int argc, char* argv[]) {
     }
 
     DIR* dir;
-    if((dir = init_dir(".")) == 0) {
+    const char* path = get_dir_path(argc, argv);
+    if((dir = init_dir(path)) == 0) {
         return 1;
     }
 
-    my_dirwalk(dir, ".", flags);
+    my_dirwalk(dir, path, flags);
 
     closedir(dir);
     return 0;
