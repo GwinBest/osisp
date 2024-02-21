@@ -5,13 +5,8 @@
 #include <string.h>
 
 const char* const get_dir_path(const int argc, const char* argv[]) {
-    char path = NULL;
     for(size_t i = 1; i < argc; ++i) {
-        if(argv[i][0] == '/' && argv[i][1] == '\0') {
-            return "/";
-        }
-
-        if(argv[i][0] == '.') {
+        if(argv[i][0] != '-') {
             return argv[i];
         }
     }
@@ -26,7 +21,7 @@ DIR* init_dir(const char* dir_root) {
 
     DIR* dir;
     if((dir = opendir(dir_root)) == 0) {
-        perror("Cannot open directory");
+        printf("Cannot open directory %s\n", dir_root);
     }
 
     return dir;
