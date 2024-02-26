@@ -1,21 +1,27 @@
 CC=gcc
-CFLAGS=-g -std=c11 -W -Wall -Wextra
+CFLAGS=-std=c11 -pedantic -W -Wall -Wextra -Werror
 SRC=src
 BUILD=build
-DIST=bin
+DEBUG=$(BUILD)/debug
+RELEASE=$(BUILD)/release
+DIST=$(DEBUG)
+
+ifeq ($(MODE), release)
+	CFLAGS = -std=c11 -pedantic -W -Wall -Wextra -Werror
+	DIST = $(RELEASE)
+endif
 
 SRCS=$(wildcard $(SRC)/*.c)
-OBJS=$(patsubst $(SRC)/%.c, $(BUILD)/%.o, $(SRCS))
+OBJS=$(patsubst $(SRC)/%.c, $(DIST)/%.o, $(SRCS))
 
-$(BUILD)/%.o: $(SRC)/%.c
+$(DIST)/%.o: $(SRC)/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 all: my_dirwalk
 
 my_dirwalk: $(OBJS)
-	@mkdir -p $(DIST)
 	$(CC) $(CFLAGS) -o $(DIST)/my_dirwalk $^
 
 clean:
-	rm -rf $(BUILD) $(DIST)
+	rm -rf $(DIST)

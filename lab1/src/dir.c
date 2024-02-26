@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char* const get_dir_path(const int argc, const char* argv[]) {
+const char* get_dir_path(const int argc, const char* argv[]) {
     for(int i = 1; i < argc; ++i) {
         if(argv[i][0] != '-') {
             return argv[i];

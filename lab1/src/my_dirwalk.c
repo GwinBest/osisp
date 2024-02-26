@@ -5,13 +5,16 @@
 #include <getopt.h>
 #include <stdlib.h>
 
+extern int scandir(const char *dirp, struct dirent ***namelist,
+            int (*filter)(const struct dirent *),
+            int (*compar)(const struct dirent **, const struct dirent **));
 extern int alphasort();
 
 int get_flags(const int argc, const char* argv[], dirwalk_flags* flags) {
     int is_flag_set = 0;
 
     char flag;
-    while ((flag = getopt(argc, argv, "ldfs")) != -1) {
+    while ((flag = getopt(argc, (char**)argv, "ldfs")) != -1) {
         switch (flag) {
         case 'l': {
             if (flags->display_symbolic_link) { 
@@ -80,7 +83,7 @@ void my_dirwalk(DIR* dir, const char* file_path, const dirwalk_flags flags) {
         return;
     }
 
-    for (size_t i = 0; i < files_count; ++i) {
+    for (int i = 0; i < files_count; ++i) {
         switch (dp[i]->d_type)
         {
         case DT_DIR: {
@@ -91,8 +94,11 @@ void my_dirwalk(DIR* dir, const char* file_path, const dirwalk_flags flags) {
             if(flags.display_directory) {
                 printf("%s/%s\n", file_path, dp[i]->d_name);
 
-                char f_path[256];
-                sprintf(f_path, "%s/%s", file_path, dp[i]->d_name);
+                static int counter = 1;
+                char f_path[counter * 256];
+
+                counter++;
+                snprintf(f_path, sizeof(f_path), "%s/%s", file_path, dp[i]->d_name);
                 my_dirwalk(dir, f_path, flags);
             }
 

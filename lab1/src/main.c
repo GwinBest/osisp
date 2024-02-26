@@ -9,12 +9,12 @@ int main(int argc, char* argv[]) {
         .is_sort = 0
     };
 
-    if(get_flags(argc, argv, &flags)) {
+    if(get_flags(argc, (const char**)argv, &flags)) {
         return 1;
     }
 
     DIR* dir;
-    const char* path = get_dir_path(argc, argv);
+    const char* path = get_dir_path(argc, (const char**)argv);
     if((dir = init_dir(path)) == 0) {
         return 1;
     }
