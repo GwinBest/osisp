@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-const char* const get_dir_path(const int argc, const char* argv[]) {
-    for(size_t i = 1; i < argc; ++i) {
+char* const get_dir_path(const int argc, const char* argv[]) {
+    for(int i = 1; i < argc; ++i) {
         if(argv[i][0] != '-') {
             return argv[i];
         }

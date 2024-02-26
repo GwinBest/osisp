@@ -1,8 +1,6 @@
 #include "dir.h"
 #include "my_dirwalk.h"
 
-#include <stdio.h>
-
 int main(int argc, char* argv[]) {
     dirwalk_flags flags = {
         .display_directory = 0,

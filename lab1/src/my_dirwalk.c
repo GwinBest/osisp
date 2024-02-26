@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <getopt.h>
+#include <stdlib.h>
 
 extern int alphasort();
 
@@ -13,7 +14,7 @@ int get_flags(const int argc, const char* argv[], dirwalk_flags* flags) {
     while ((flag = getopt(argc, argv, "ldfs")) != -1) {
         switch (flag) {
         case 'l': {
-            if(flags->display_symbolic_link) { 
+            if (flags->display_symbolic_link) { 
                     printf("warning: flag -l already set\n");
             }
             flags->display_symbolic_link = 1;
@@ -22,7 +23,7 @@ int get_flags(const int argc, const char* argv[], dirwalk_flags* flags) {
             break;
         }
         case 'd': {
-            if(flags->display_directory) {
+            if (flags->display_directory) {
                 printf("warning: flag -d already set\n");
             }
             flags->display_directory = 1;
@@ -31,7 +32,7 @@ int get_flags(const int argc, const char* argv[], dirwalk_flags* flags) {
             break;
         }
         case 'f': {
-            if(flags->display_files) {
+            if (flags->display_files) {
                 printf("warning: flag -f already set\n");
             }
             flags->display_files = 1;
@@ -40,7 +41,7 @@ int get_flags(const int argc, const char* argv[], dirwalk_flags* flags) {
             break;
         }
         case 's': {
-            if(flags->is_sort) {
+            if (flags->is_sort) {
                 printf("warning: flag -s already set\n");
             }
             flags->is_sort = 1;
@@ -55,7 +56,7 @@ int get_flags(const int argc, const char* argv[], dirwalk_flags* flags) {
         }   
     }
 
-    if(!is_flag_set) {
+    if (!is_flag_set) {
         flags->display_directory = 1;
         flags->display_files = 1;
         flags->display_symbolic_link = 1;
@@ -64,7 +65,7 @@ int get_flags(const int argc, const char* argv[], dirwalk_flags* flags) {
     return 0;
 }
 
-void my_dirwalk(DIR* dir,const char* file_path, const dirwalk_flags flags) {
+void my_dirwalk(DIR* dir, const char* file_path, const dirwalk_flags flags) {
     if (dir == NULL) {
         printf("dir is null\n");
         return;
@@ -117,5 +118,9 @@ void my_dirwalk(DIR* dir,const char* file_path, const dirwalk_flags flags) {
             break;
         }
         }
+
+        free(dp[i]);
     }
+
+    free(dp);
 }
