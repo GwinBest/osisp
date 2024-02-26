@@ -24,4 +24,4 @@ my_dirwalk: $(OBJS)
 	$(CC) $(CFLAGS) -o $(DIST)/my_dirwalk $^
 
 clean:
-	rm -rf $(DIST)
+	rm -rf $(BUILD)
