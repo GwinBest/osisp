@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-std=c11 -pedantic -W -Wall -Wextra -Werror
+CFLAGS=-g -ggdb -std=c11 -pedantic -W -Wall -Wextra
 SRC=src
 BUILD=build
 DEBUG=$(BUILD)/debug
@@ -7,8 +7,8 @@ RELEASE=$(BUILD)/release
 DIST=$(DEBUG)
 
 ifeq ($(MODE), release)
-	CFLAGS = -std=c11 -pedantic -W -Wall -Wextra -Werror
-	DIST = $(RELEASE)
+	CFLAGS=-std=c11 -pedantic -W -Wall -Wextra -Werror
+	DIST=$(RELEASE)
 endif
 
 SRCS=$(wildcard $(SRC)/*.c)
